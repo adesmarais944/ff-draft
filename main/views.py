@@ -8,7 +8,7 @@ def index(request):
     return HttpResponse("Yo")
 
 def player_data(request):
-    url = "https://api.fantasynerds.com/v1/nfl/auction?apikey=TEST&teams=&budget=&format=PPR"
+    url = "https://api.fantasynerds.com/v1/nfl/adp?apikey=TEST&teams=&format=half"
     response = requests.get(url)
     data = response.json()
     return JsonResponse(data)
