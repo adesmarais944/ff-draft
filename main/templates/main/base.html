@@ -1,6 +1,12 @@
 <html>
     <head>
         <title>{% block title %}Fantasy Draft{% endblock %}</title>
+        <script>
+            function handleButtonClick(button) { 
+                var playerId = button.name;
+                alert('Player ID: ' + playerId);
+            }
+        </script>
     </head>
     <body>
         <div id="content", name="content">

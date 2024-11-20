@@ -4,6 +4,7 @@
 Home
 {% endblock %}
 {% block content %}
+
 <h1>Players</h1>
     <table>
         <thead>
@@ -18,7 +19,7 @@ Home
             <td>{{p.name}}</td>
             <td>{{p.position}}</td>
             <td>{{p.adp}}</td>
-            <td><button type="button">Draft Player</button></td>
+            <td><button type="button" name="{{p.id}}" onclick="handleButtonClick(this)">Draft Player</button></td>
         </tr>
 {% endfor %}
 </table>
