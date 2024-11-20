@@ -6,7 +6,7 @@ Home
 {% block content %}
 
 <h1>Players</h1>
-    <table>
+    <table class="table table-striped">
         <thead>
             <tr>
                 <th>Player Name</th>
@@ -19,7 +19,7 @@ Home
             <td>{{p.name}}</td>
             <td>{{p.position}}</td>
             <td>{{p.adp}}</td>
-            <td><button type="button" name="{{p.id}}" onclick="handleButtonClick(this)">Draft Player</button></td>
+            <td><button type="button" name="{{p.id}}" onclick="handleButtonClick(this)" class="btn btn-primary btn-sm">Draft Player</button></td>
         </tr>
 {% endfor %}
 </table>

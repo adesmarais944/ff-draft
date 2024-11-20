@@ -5,11 +5,15 @@ Drafts
 {% endblock %}
 
 {% block content %}
-<h1>Drafts</h1>
-<form method="post" action="/drafts/">
+<h3>Create Draft</h3>
+<form method="post" action="/drafts/" class="form-group">
     {% csrf_token %}
-    {{form.as_p}}
-    <button type="submit", name="save">Create Draft</button>
+    <div class=input-group mb-3">
+        <div class="input-group-prepend">
+            <button type="submit", name="save" class="btn btn-success">Create Draft</button>
+        </div>
+        {{form.name}}
+    </div>
 </form>
 
 

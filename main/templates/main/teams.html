@@ -5,11 +5,15 @@ Teams
 {% endblock %}
 
 {% block content %}
-<h1>Teams</h1>
-<form method="post" action="/teams/">
+<h3>Create Team</h3>
+<form method="post" action="/teams/" class="form-group">
     {% csrf_token %}
-    {{form.as_p}}
-    <button type="submit", name="save">Create Team</button>
+    <div class=input-group mb-3">
+        <div class="input-group-prepend">
+            <button type="submit", name="save" class="btn btn-success">Create Team</button>
+        </div>
+        {{form.name}}
+    </div>
 </form>
 
 
