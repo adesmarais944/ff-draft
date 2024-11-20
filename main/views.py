@@ -10,17 +10,29 @@ from typing import List
 def index(request):
     return HttpResponse("Yo")
 
-'''
-def player_api(request):
-    url = "https://api.fantasynerds.com/v1/nfl/adp?apikey=TEST&teams=&format=half"
-    response = requests.get(url)
-    data = response.json()
-    values = [data[]]
-    return JsonResponse(data)
-'''
-
-
+# Fetches player records stored in Player table
 def player_data(request):
     players = Player.objects.all()
     context = {"collection": players}
     return render(request, "main/home.html", context)
+
+# Purgres all Player records, retrieves Player data via API and creates new Player records
+def player_data2(request):
+    Player.objects.all().delete()
+    url = "https://api.fantasynerds.com/v1/nfl/adp?apikey=TEST&teams=&format=half"
+    response = requests.get(url)
+    
+    if response.status_code == 200:
+        data = response.json()  # Parse the JSON response
+        players = data['players']
+        
+        # Iterate through the players and create Player objects
+        for player in players:
+            Player.objects.create(
+                name=player['name'],
+                position=player['position'],
+                adp=player['pick']
+            )
+        return JsonResponse({'message': 'Players created successfully'})
+    else:
+        return JsonResponse({'error': 'Failed to fetch data'}, status=response.status_code)
