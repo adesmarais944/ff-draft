@@ -1,0 +1,25 @@
+{% extends 'main/base.html' %}
+
+{% block title %}
+Home
+{% endblock %}
+{% block content %}
+
+    <table>
+        <thead>
+            <tr>
+                <th>Player Name</th>
+                <th>Position</th>
+                <th>ADP</th>
+            </tr>
+        </thead>
+        {% for p in collection %}
+        <tr>
+            <td>{{p.name}}</td>
+            <td>{{p.position}}</td>
+            <td>{{p.adp}}</td>
+        </tr>
+{% endfor %}
+</table>
+
+{% endblock %}
