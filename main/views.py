@@ -1,9 +1,10 @@
 import requests
 import json
+import datetime
 from django.shortcuts import render
 from django.http import HttpResponse,HttpResponseRedirect, JsonResponse
-from .models import Player, Team
-from .forms import CreateNewTeam
+from .models import Player, Team, Draft
+from .forms import CreateNewTeam, CreateDraft
 
 # Create your views here.
 def index(request):
@@ -50,7 +51,21 @@ def teams(request):
             new_team = Team(name=n,draft_pos=p)
             new_team.save()
         return HttpResponse("Team Created!")
-
     else:
         form = CreateNewTeam()
     return render(request, "main/teams.html", {"form":form})
+
+def drafts(request):
+    if request.method == "POST":
+        form = CreateDraft(request.POST)
+
+        if form.is_valid():
+            n = form.cleaned_data["name"]
+            d = datetime.datetime.now()
+            new_draft = Draft(name=n,date=d)
+            new_draft.save()
+        return players(request)
+    else:
+        form = CreateDraft()
+    return render(request, "main/drafts.html", {"form":form})
+    

@@ -1,0 +1,17 @@
+{% extends 'main/base.html' %}
+
+{% block title %}
+Drafts
+{% endblock %}
+
+{% block content %}
+<h1>Drafts</h1>
+<form method="post" action="/drafts/">
+    {% csrf_token %}
+    {{form.as_p}}
+    <button type="submit", name="save">Create Draft</button>
+</form>
+
+
+
+{% endblock %}
