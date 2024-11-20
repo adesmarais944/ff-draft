@@ -1,0 +1,17 @@
+{% extends 'main/base.html' %}
+
+{% block title %}
+Teams
+{% endblock %}
+
+{% block content %}
+<h1>Teams</h1>
+<form method="post" action="/teams/">
+    {% csrf_token %}
+    {{form.as_p}}
+    <button type="submit", name="save">Create Team</button>
+</form>
+
+
+
+{% endblock %}
