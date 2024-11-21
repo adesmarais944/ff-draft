@@ -41,6 +41,7 @@ def teams(request):
             p = form.cleaned_data["pos"]
             new_team = Team(name=n,draft_pos=p)
             new_team.save()
+            request.user.team.add(new_team)
         return HttpResponse("Team Created!")
     else:
         form = CreateNewTeam()
@@ -56,8 +57,11 @@ def drafts(request):
             d = datetime.datetime.now()
             new_draft = Draft(name=n,date=d)
             new_draft.save()
+            request.user.draft.add(new_draft)
         return players(request)
     else:
         form = CreateDraft()
     return render(request, "main/drafts.html", {"form":form})
-    
+
+def view(request):
+    return render(request, "main/view.html", {})
