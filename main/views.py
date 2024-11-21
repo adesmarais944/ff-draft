@@ -8,7 +8,7 @@ from .forms import CreateNewTeam, CreateDraft
 
 # Create your views here.
 def index(request):
-    return HttpResponse("Yo")
+    return render(request, "main/base.html", {})
 
 # Players view: Deletes all Player records, retrieves Player data via API, and creates new Player records
 def players(request):
