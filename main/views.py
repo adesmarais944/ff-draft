@@ -5,6 +5,7 @@ from django.shortcuts import render
 from django.http import HttpResponse,HttpResponseRedirect, JsonResponse
 from .models import Player, Team, Draft
 from .forms import CreateNewTeam, CreateDraft
+from django.contrib.auth import authenticate, login, logout
 
 # Create your views here.
 def index(request):
@@ -65,3 +66,9 @@ def drafts(request):
 
 def view(request):
     return render(request, "main/view.html", {})
+
+def login_user(request):
+    pass
+
+def logout_user(request):
+    pass
