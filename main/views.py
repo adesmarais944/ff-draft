@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from .forms import SignUpForm, DraftForm
 from django import forms
-from .models import Draft
+from .models import Draft, Player
 from datetime import datetime
 
 # Create your views here.
@@ -28,7 +28,8 @@ def home(request):
 def draft(request, pk):
     draft = get_object_or_404(Draft, id=pk)
     if draft:
-        return render(request, 'draft.html', {"draft":draft})
+        players = Player.objects.all().order_by("adp")
+        return render(request, 'draft.html', {"draft":draft, "players":players})
 
 def login_user(request):
     print("yo")
