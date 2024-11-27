@@ -38,6 +38,11 @@
         </div>
         <div class="col-4">
             <h1>Team</h1>
+                <ul>
+                    {% for rostered_player in rostered_players %}
+                        <li>{{ rostered_player.player.name }} - Pick {{ rostered_player.pick }}</li>
+                    {% endfor %}
+                </ul>
         </div>
     </div>
 </div>
