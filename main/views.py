@@ -3,11 +3,27 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.contrib import messages
-from .forms import SignUpForm
+from .forms import SignUpForm, DraftForm
+from django import forms
+from .models import Draft
+from datetime import datetime
 
 # Create your views here.
 def home(request):
-    return render(request, 'home.html', {})
+    if request.user.is_authenticated:
+        form = DraftForm(request.POST or None)
+        if request.method == "POST":
+            if form.is_valid():
+                draft = form.save(commit=False)
+                draft.user = request.user
+                #draft.date = datetime.now()
+                draft.save()
+                messages.success(request, ('Draft created!'))
+                return redirect ('home')
+        drafts = Draft.objects.all().order_by("-date")
+        return render(request, 'home.html', {"drafts":drafts, "form":form})
+    else:
+        return render(request, 'home.html', {})
 
 def login_user(request):
     print("yo")

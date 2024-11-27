@@ -1,6 +1,16 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+from .models import Draft
+
+class DraftForm(forms.ModelForm):
+    name = forms.CharField(required=True,
+        label="",
+    )
+
+    class Meta:
+        model = Draft
+        exclude = ('user',)
 
 class SignUpForm(UserCreationForm):
     email = forms.EmailField(label="", widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Email Address'}))

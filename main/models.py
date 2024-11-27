@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 
 class Draft(models.Model):
     name = models.CharField(max_length=100)
-    date = models.DateTimeField("draft created")
+    date = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="draft", null=True)
     def __str__(self):
         return self.name
