@@ -10,7 +10,7 @@ class Draft(models.Model):
 
 class Team(models.Model):
     name = models.CharField(max_length=100)
-    draft = models.ForeignKey(Draft, on_delete=models.CASCADE, related_name="draft")
+    draft = models.ForeignKey(Draft, on_delete=models.CASCADE, related_name="team")
     draft_pos = models.IntegerField()
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="team")
     def __str__(self):

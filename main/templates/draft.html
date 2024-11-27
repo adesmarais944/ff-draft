@@ -2,32 +2,43 @@
 {% load static %}
 {% block content %}
 <div class="container text-center">
-	<div class="row">
-		<div class="col-8">
-			<h1>Draft: {{ draft.name }} </h1>
-				</br>
-					<container class="container">
-						<table class="table table-striped">
-							<thead>
-								<tr>
-									<th>Player Name</th>
-									<th>Position</th>
-									<th>ADP</th>
-								</tr>
-							</thead>
-								{% for player in players %}
-									<tr>
-										<td>{{ player.name }}</td>
-										<td>{{ player.position }}</td>
-										<td>{{ player.adp }}</td>
-										
-									</tr>
-								{% endfor %}
-						</table>
-					</container>
-		</div>
-	<div class="col-4">
-			<h1>Team </h1>
-	</div>
+    <div class="row">
+        <div class="col-8">
+            <h1>Draft: {{ draft.name }} </h1>
+            </br>
+            <container class="container">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Player Name</th>
+                            <th>Position</th>
+                            <th>ADP</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for player in players %}
+                            <tr>
+                                <td>{{ player.name }}</td>
+                                <td>{{ player.position }}</td>
+                                <td>{{ player.adp }}</td>
+                                <td>
+                                    <form method="post" action="">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="player" value="{{ player.id }}">
+                                        <input type="hidden" name="team" value="{{ draft.team.first.id }}">
+                                        <button type="submit" class="btn btn-secondary">Draft</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </container>
+        </div>
+        <div class="col-4">
+            <h1>Team</h1>
+        </div>
+    </div>
 </div>
 {% endblock %}

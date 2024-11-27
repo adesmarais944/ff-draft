@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import Draft
+from .models import Draft, RosteredPlayer
 
 class DraftForm(forms.ModelForm):
     name = forms.CharField(required=True,
@@ -11,6 +11,11 @@ class DraftForm(forms.ModelForm):
     class Meta:
         model = Draft
         exclude = ('user',)
+
+class DraftPlayerForm(forms.ModelForm):
+    class Meta:
+        model = RosteredPlayer
+        fields = ['player', 'team']
 
 class SignUpForm(UserCreationForm):
     email = forms.EmailField(label="", widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Email Address'}))
