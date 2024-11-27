@@ -50,7 +50,14 @@ def draft(request, pk):
     
     players = Player.objects.all().order_by("adp")
     form = DraftPlayerForm()
-    return render(request, 'draft.html', {"draft": draft, "players": players, "form": form})
+    rostered_players = RosteredPlayer.objects.filter(draft=draft)
+    
+    return render(request, 'draft.html', {
+        "draft": draft,
+        "players": players,
+        "form": form,
+        "rostered_players": rostered_players
+    })
 
 def login_user(request):
     if request.method == "POST":
