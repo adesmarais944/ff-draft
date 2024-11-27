@@ -24,6 +24,11 @@ def home(request):
         return render(request, 'home.html', {"drafts":drafts, "form":form})
     else:
         return render(request, 'home.html', {})
+    
+def draft(request, pk):
+    draft = get_object_or_404(Draft, id=pk)
+    if draft:
+        return render(request, 'draft.html', {"draft":draft})
 
 def login_user(request):
     print("yo")
