@@ -3,14 +3,9 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from .models import Draft, RosteredPlayer
 
-class DraftForm(forms.ModelForm):
-    name = forms.CharField(required=True,
-        label="",
-    )
-
-    class Meta:
-        model = Draft
-        exclude = ('user',)
+class DraftForm(forms.Form):
+    name = forms.CharField(required=True)
+    draft_pos = forms.IntegerField(label="Draft Position", min_value=1, max_value=12)
 
 class DraftPlayerForm(forms.ModelForm):
     class Meta:

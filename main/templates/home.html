@@ -23,12 +23,19 @@
 		</div>
 		<div class="col-4">
 			</br></br></br></br>
-				{% if form %}
-					<form method="POST">
-						{% csrf_token %}
-						Draft Name: {{ form.as_table }}</br></br>
-						<button type="submit" class="btn btn-secondary">Create Draft</button>
-					</form>
-				{% endif %}
+				<div class="card">
+					<div class="card-header">
+					Create Draft
+					</div>
+					<div class="card-body">
+						{% if form %}
+								<form method="POST">
+									{% csrf_token %}
+									{{ form }}</br>
+									<button type="submit" class="btn btn-secondary">Create</button>
+								</form>
+						{% endif %}
+					</div>
+				</div>
 		</div>
 {% endblock %}

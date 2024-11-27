@@ -7,19 +7,31 @@ from .forms import SignUpForm, DraftForm, DraftPlayerForm
 from django import forms
 from .models import Draft, Player, RosteredPlayer, Team
 
-# Create your views here.
+# Home page renders Drafts and facilitates new Draft/Team creation
 def home(request):
     if request.user.is_authenticated:
         form = DraftForm(request.POST or None)
-        if request.method == "POST":
-            if form.is_valid():
-                draft = form.save(commit=False)
-                draft.user = request.user
-                draft.save()
-                messages.success(request, ('Draft created!'))
-                return redirect ('home')
+        if request.method == "POST" and form.is_valid():
+            # Create the Draft object
+            draft_name = form.cleaned_data['name']
+            draft = Draft.objects.create(name=draft_name, user=request.user)
+            
+            # Get draft position from form
+            draft_pos = form.cleaned_data['draft_pos']
+            
+            # Create the Team object with the specified draft position
+            team = Team.objects.create(
+                name=f"User Team for {draft.name}",
+                draft=draft,
+                draft_pos=draft_pos,
+                user=request.user
+            )
+            
+            messages.success(request, f"Draft {draft.name} created with your team in position {draft_pos}")
+            return redirect('home')
+        
         drafts = Draft.objects.all().order_by("-date")
-        return render(request, 'home.html', {"drafts":drafts, "form":form})
+        return render(request, 'home.html', {"drafts": drafts, "form": form})
     else:
         return render(request, 'home.html', {})
 
