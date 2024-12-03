@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import Draft, RosteredPlayer
+from .models import Draft, DraftPlayer
 
 class DraftForm(forms.Form):
     name = forms.CharField(required=True)
@@ -9,7 +9,7 @@ class DraftForm(forms.Form):
 
 class DraftPlayerForm(forms.ModelForm):
     class Meta:
-        model = RosteredPlayer
+        model = DraftPlayer
         fields = ['player', 'team']
 
 class SignUpForm(UserCreationForm):

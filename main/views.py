@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from .forms import SignUpForm, DraftForm, DraftPlayerForm
 from django import forms
-from .models import Draft, Player, RosteredPlayer, Team
+from .models import Draft, Player, DraftPlayer, Team
 
 # Home page renders Drafts and facilitates new Draft/Team creation
 def home(request):
@@ -48,7 +48,7 @@ def draft(request, pk):
             team = get_object_or_404(Team, id=team_id)
             
             # Create Rostered Player record
-            rostered_player = RosteredPlayer.objects.create(
+            rostered_player = DraftPlayer.objects.create(
                 draft=draft,
                 team=team,
                 player=player,
@@ -62,7 +62,7 @@ def draft(request, pk):
     
     players = Player.objects.all().order_by("adp")
     form = DraftPlayerForm()
-    rostered_players = RosteredPlayer.objects.filter(draft=draft)
+    rostered_players = DraftPlayer.objects.filter(draft=draft)
     
     return render(request, 'draft.html', {
         "draft": draft,
