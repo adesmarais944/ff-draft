@@ -14,7 +14,8 @@ def home(request):
         if request.method == "POST" and form.is_valid():
             # Create the Draft object
             draft_name = form.cleaned_data['name']
-            draft = Draft.objects.create(name=draft_name, user=request.user)
+            num_of_teams = form.cleaned_data['num_of_teams']
+            draft = Draft.objects.create(name=draft_name, user=request.user, num_of_teams=num_of_teams)
             
             # Get draft position from form
             draft_pos = form.cleaned_data['draft_pos']

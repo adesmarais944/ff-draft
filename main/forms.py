@@ -6,6 +6,7 @@ from .models import Draft, DraftPlayer
 class DraftForm(forms.Form):
     name = forms.CharField(required=True)
     draft_pos = forms.IntegerField(label="Draft Position", min_value=1, max_value=12)
+    num_of_teams = forms.IntegerField(label="Number of Teams", min_value=8, max_value=14)
 
 class DraftPlayerForm(forms.ModelForm):
     class Meta:
