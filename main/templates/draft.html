@@ -6,7 +6,7 @@
         <div class="col-8">
             <h1>Draft: {{ draft.name }} </h1>
             </br>
-            <container class="container">
+            <div class="container">
                 <table class="table table-striped">
                     <thead>
                         <tr>
@@ -17,30 +17,30 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% for player in players %}
+                        {% for dp in draft_players %}
                             <tr>
-                                <td>{{ player.name }}</td>
-                                <td>{{ player.position }}</td>
-                                <td>{{ player.adp }}</td>
+                                <td>{{ dp.player.name }}</td>
+                                <td>{{ dp.player.position }}</td>
+                                <td>{{ dp.player.adp }}</td>
                                 <td>
                                     <form method="post" action="">
                                         {% csrf_token %}
-                                        <input type="hidden" name="player" value="{{ player.id }}">
+                                        <input type="hidden" name="player" value="{{ dp.player.id }}">
                                         <input type="hidden" name="team" value="{{ draft.team.first.id }}">
-                                        <button type="submit" class="btn btn-secondary">Draft</button>
+                                        <button type="submit" class="btn btn-secondary" onclick="return confirm('Are you sure you want to draft this player?');">Draft</button>
                                     </form>
                                 </td>
                             </tr>
                         {% endfor %}
                     </tbody>
                 </table>
-            </container>
+            </div>
         </div>
         <div class="col-4">
             <h1>Team</h1>
                 <ul>
-                    {% for rostered_player in rostered_players %}
-                        <li>{{ rostered_player.player.name }} - Pick {{ rostered_player.pick }}</li>
+                    {% for dp in user_team %}
+                        <li>{{ dp.player.name }} - Pick {{ dp.pick }}</li>
                     {% endfor %}
                 </ul>
         </div>

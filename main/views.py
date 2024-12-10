@@ -61,28 +61,36 @@ def draft(request, pk):
             player = get_object_or_404(Player, id=player_id)
             team = get_object_or_404(Team, id=team_id)
             
-            # Create Rostered Player record
-            rostered_player = DraftPlayer.objects.create(
-                draft=draft,
+            # Update existing Draft Player record
+            draft_player = DraftPlayer.objects.filter(draft=draft, player=player).update(
                 team=team,
-                player=player,
-                pick=0  # Replace with logic to determine the correct pick if needed
+                pick=0,  # Replace with logic to determine the correct pick
+                rostered=True
             )
-            messages.success(request, f"You have selected {rostered_player.player.name}!")
+            messages.success(request, f"You have selected {player.name}!")
             return redirect('draft', pk=draft.id)
         else:
             print("Form is not valid")  # Debugging print
             print(form.errors)  # Print form errors for debugging
+
+    else:
+        players = Player.objects.all().order_by("adp")
+        for player in players:
+            DraftPlayer.objects.get_or_create(
+                draft=draft,
+                player=player,
+                defaults={'team': None, 'rostered': False}
+            )
     
-    players = Player.objects.all().order_by("adp")
+    draft_players = DraftPlayer.objects.filter(draft=draft, rostered=False)
     form = DraftPlayerForm()
-    rostered_players = DraftPlayer.objects.filter(draft=draft)
+    user_team = DraftPlayer.objects.filter(draft=draft, rostered=True)
     
     return render(request, 'draft.html', {
         "draft": draft,
-        "players": players,
         "form": form,
-        "rostered_players": rostered_players
+        "draft_players": draft_players,
+        "user_team": user_team
     })
 
 def login_user(request):

@@ -27,9 +27,12 @@ class Player(models.Model):
 class DraftPlayer(models.Model):
     player = models.ForeignKey(Player, on_delete=models.CASCADE)
     draft = models.ForeignKey(Draft, on_delete=models.CASCADE)
-    team = models.ForeignKey(Team, on_delete=models.CASCADE)
+    team = models.ForeignKey(Team, on_delete=models.CASCADE, null=True, blank=True)
     pick = models.IntegerField(default=0)
     rostered = models.BooleanField(default=False)
+
+    class Meta:
+        unique_together = ('draft', 'player')
 
     def __str__(self):
         return(
