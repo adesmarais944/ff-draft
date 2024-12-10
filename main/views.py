@@ -6,6 +6,8 @@ from django.contrib import messages
 from .forms import SignUpForm, DraftForm, DraftPlayerForm
 from django import forms
 from .models import Draft, Player, DraftPlayer, Team
+from threading import Event, Thread
+from .draft_handler import draft_handler
 
 # Home page renders Drafts and facilitates new Draft/Team creation
 def home(request):
@@ -15,7 +17,13 @@ def home(request):
             # Create the Draft object
             draft_name = form.cleaned_data['name']
             num_of_teams = form.cleaned_data['num_of_teams']
-            draft = Draft.objects.create(name=draft_name, user=request.user, num_of_teams=num_of_teams)
+            time_per_pick = form.cleaned_data['time_per_pick']
+            draft = Draft.objects.create(
+                name=draft_name,
+                user=request.user,
+                num_of_teams=num_of_teams,
+                time_per_pick=time_per_pick
+            )
             
             # Get draft position from form
             user_draft_pos = form.cleaned_data['draft_pos']
@@ -28,16 +36,12 @@ def home(request):
                 user=request.user
             )
 
-            # Get draft position range from form 
-            draft_start = 1
-            draft_end = num_of_teams
-
             # Create CPU teams for the draft
             for t in range(num_of_teams):
                 Team.objects.create(
                    name=f"Team {t + 1} for {draft.name}",
                    draft=draft,
-                   draft_pos=t + 1, # update this later for random position that isn't the current user's
+                   draft_pos=t + 1,
                    user=None
                 )
             
@@ -49,10 +53,18 @@ def home(request):
     else:
         return render(request, 'home.html', {})
 
+draft_event = Event()  # Global event to control the timer
+
 def draft(request, pk):
     draft = get_object_or_404(Draft, id=pk)
     
     if request.method == "POST":
+        if 'start_draft' in request.POST:
+            draft_thread = Thread(target=draft_handler, args=(draft, draft_event))
+            draft_thread.start()
+            messages.success(request, "Draft started!")
+            return redirect('draft', pk=draft.id)
+
         form = DraftPlayerForm(request.POST)
         if form.is_valid():
             player_id = request.POST.get('player')
@@ -67,11 +79,12 @@ def draft(request, pk):
                 pick=0,  # Replace with logic to determine the correct pick
                 rostered=True
             )
+            draft_event.set()  # Trigger the event to reset the timer
             messages.success(request, f"You have selected {player.name}!")
             return redirect('draft', pk=draft.id)
         else:
-            print("Form is not valid")  # Debugging print
-            print(form.errors)  # Print form errors for debugging
+            print("Form is not valid")
+            print(form.errors)
 
     else:
         players = Player.objects.all().order_by("adp")

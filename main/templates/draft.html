@@ -4,7 +4,10 @@
 <div class="container text-center">
     <div class="row">
         <div>
-            <button id="start-draft-btn" class="btn btn-primary">Start Draft</button>
+            <form method="post" action="">
+                {% csrf_token %}
+                <button type="submit" name="start_draft" id="start-draft-btn" class="btn btn-primary">Start Draft</button>
+            </form>
         </div>
     </div></br>
     <div class="row">
