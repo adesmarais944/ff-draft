@@ -40,5 +40,5 @@ class DraftPlayer(models.Model):
             f"{self.team} - "
             f"{self.player} - "
             f"pick {self.pick} - "
-            f"rostered {self.pick}"
+            f"rostered {self.rostered}"
         )
