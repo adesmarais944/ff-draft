@@ -7,6 +7,7 @@ class DraftForm(forms.Form):
     name = forms.CharField(required=True)
     draft_pos = forms.IntegerField(label="Draft Position", min_value=1, max_value=12)
     num_of_teams = forms.IntegerField(label="Number of Teams", min_value=8, max_value=14)
+    time_per_pick = forms.IntegerField(label="Time Per Pick (seconds)", min_value=30, max_value=120)
 
 class DraftPlayerForm(forms.ModelForm):
     class Meta:

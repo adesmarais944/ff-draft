@@ -3,8 +3,13 @@
 {% block content %}
 <div class="container text-center">
     <div class="row">
-        <div class="col-8">
-            <h1>Draft: {{ draft.name }} </h1>
+        <div>
+            <button id="start-draft-btn" class="btn btn-primary">Start Draft</button>
+        </div>
+    </div></br>
+    <div class="row">
+        <div class="col-7">
+        <h1>Draft: {{ draft.name }} </h1>
             </br>
             <div class="container">
                 <table class="table table-striped">
@@ -37,7 +42,7 @@
             </div>
         </div>
         <div class="col-4">
-            <h1>Team</h1>
+        <h1>Team</h1>
                 <ul>
                     {% for dp in user_team %}
                         <li>{{ dp.player.name }} - Pick {{ dp.pick }}</li>

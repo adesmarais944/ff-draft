@@ -6,6 +6,7 @@ class Draft(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="draft", null=True)
     num_of_teams = models.IntegerField(default=0)
+    time_per_pick = models.IntegerField(default=60)
     def __str__(self):
         return self.name
 
