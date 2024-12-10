@@ -18,17 +18,30 @@ def home(request):
             draft = Draft.objects.create(name=draft_name, user=request.user, num_of_teams=num_of_teams)
             
             # Get draft position from form
-            draft_pos = form.cleaned_data['draft_pos']
+            user_draft_pos = form.cleaned_data['draft_pos']
             
             # Create the Team object with the specified draft position
             team = Team.objects.create(
                 name=f"User Team for {draft.name}",
                 draft=draft,
-                draft_pos=draft_pos,
+                draft_pos=user_draft_pos,
                 user=request.user
             )
+
+            # Get draft position range from form 
+            draft_start = 1
+            draft_end = num_of_teams
+
+            # Create CPU teams for the draft
+            for t in range(num_of_teams):
+                Team.objects.create(
+                   name=f"Team {t + 1} for {draft.name}",
+                   draft=draft,
+                   draft_pos=t + 1, # update this later for random position that isn't the current user's
+                   user=None
+                )
             
-            messages.success(request, f"Draft {draft.name} created with your team in position {draft_pos}")
+            messages.success(request, f"Draft {draft.name} created with your team in position {user_draft_pos}")
             return redirect('home')
         
         drafts = Draft.objects.all().order_by("-date")
