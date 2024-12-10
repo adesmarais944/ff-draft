@@ -1,5 +1,6 @@
 import requests
 import json
+from decimal import Decimal
 from .models import Player
 
 def players(request):
@@ -12,16 +13,19 @@ def players(request):
 
         for player in players:
             try:
-                # Convert the 'pick' field to an integer
-                adp_value = int(player['pick'])
-            except ValueError:
+                # Convert the 'pick' field to a decimal
+                adp_value = Decimal(player['pick'])
+            except (ValueError, Decimal.InvalidOperation):
                 # Handle the error if conversion fails
-                adp_value = 0  # Default value or handle as needed
+                adp_value = Decimal(0)  # Default value or handle as needed
 
-            Player.objects.get_or_create(
-                name=player['name'],
-                position=player['position'],
-                adp=adp_value,
-                api_id=player['playerId']  # Ensure the key 'playerId' is accessed correctly
+            # Update or create the player record
+            Player.objects.update_or_create(
+                api_id=player['playerId'],  # Match based on api_id
+                defaults={
+                    'name': player['name'],
+                    'position': player['position'],
+                    'adp': adp_value
+                }
             )
             print(player['name'])
