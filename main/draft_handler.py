@@ -16,10 +16,11 @@ def draft_handler(draft, event):
 
     for team in teams:
         if team.user:
-            while not event.is_set():
-                timer(time_per_pick, team, event, autodraft_callback=lambda t: autodraft_player(t, draft))
-                if event.is_set():
-                    break
-            event.clear()
+            print(f"{team.name}'s turn")
+            timer(time_per_pick, team, event, autodraft_callback=lambda t: autodraft_player(t, draft))
         else:
             autodraft_player(team, draft)
+
+        # Clear the event and reset the timer for the next team
+        event.clear()
+        time_per_pick = draft.time_per_pick

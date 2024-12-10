@@ -97,7 +97,7 @@ def draft(request, pk):
     
     draft_players = DraftPlayer.objects.filter(draft=draft, rostered=False)
     form = DraftPlayerForm()
-    user_team = DraftPlayer.objects.filter(draft=draft, rostered=True)
+    user_team = DraftPlayer.objects.filter(draft=draft, team__user=request.user, rostered=True)
     
     return render(request, 'draft.html', {
         "draft": draft,
