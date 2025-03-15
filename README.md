@@ -1,12 +1,27 @@
-# ff-draft
-football thing
+# FF-Draft
+Football drafting application built with Django.
 
-# windows setup
-# run to create new vm
+## Setup Options
+
+1. ### Local Development (Windows)
+```bash
+# Create and activate virtual environment
 python -m venv env
-
-# activate vm
 env\Scripts\activate
 
-# install dependencies
+# Install dependencies and run
 pip install -r requirements.txt
+python manage.py migrate
+python manage.py runserver
+```
+
+2. ### Docker
+```bash
+
+# Build and start containers (Django + PostgreSQL)
+docker-compose up
+
+# Rebuild after Dockerfile/requirements changes
+docker-compose build
+docker-compose up
+```
